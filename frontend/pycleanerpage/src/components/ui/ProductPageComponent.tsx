@@ -138,6 +138,12 @@ export default function ProductPageComponent() {
                   gap={4}
                   justify="center"
                   align="center">
+                  <Link
+                      href="https://github.com/duartecaldascardoso/folderSort"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      _hover={{ textDecoration: 'none' }}
+                  ></Link>  
                   <Button
                     colorScheme="purple"
                     rounded="full"
@@ -189,22 +195,22 @@ export default function ProductPageComponent() {
               <FeatureCard
                 icon={FaCog}
                 title="Fully Customizable"
-                description="Configure rules, patterns, and behaviors. Create custom organization strategies that match your unique needs."
+                description="Configure rules, patterns, and behaviors. Chain multiple commands together with flags for complex workflows."
               />
               <FeatureCard
                 icon={FaBolt}
                 title="Lightning Fast"
-                description="Optimized algorithms process thousands of files in seconds, with minimal resource usage and maximum efficiency."
+                description="Optimized algorithms and LLM calls process thousands of files in seconds, with optimized resource usage."
               />
               <FeatureCard
                 icon={FaCode}
                 title="Open Source"
-                description="Transparent, community-driven development. Contribute, extend, and customize the tool to fit your exact requirements."
+                description="Transparent, community-driven development. Contribute, extend, and customize the tool within the community."
               />
               <FeatureCard
                 icon={FaHeart}
                 title="Developer Friendly"
-                description="Extensive documentation, plugin system, and API for integration with your existing tools and workflows."
+                description="Built with care and following good practices. Easy to start developing, testing, and contributing to the project."
               />
             </SimpleGrid>
           </VStack>
@@ -235,7 +241,7 @@ export default function ProductPageComponent() {
                 borderColor={useColorModeValue('gray.300', 'gray.700')}
               >
                 <Text color={useColorModeValue('gray.500', 'gray.500')}># Before: 247 files scattered in Downloads</Text>
-                <Text mt={2}>$ folder-organizer organize ~/Downloads --ai-mode</Text>
+                <Text mt={2}>$ folder-sort --ai Please sort my files according to their types (Documents, Images and Code)</Text>
                 <Text mt={4} color={useColorModeValue('orange.500', 'yellow.400')}>🤖 Analyzing file patterns...</Text>
                 <Text color={useColorModeValue('orange.500', 'yellow.400')}>📁 Creating intelligent folder structure...</Text>
                 <Text color={useColorModeValue('green.600', 'green.400')}>✅ Organized 247 files into 12 categories (2.3s)</Text>
@@ -245,16 +251,16 @@ export default function ProductPageComponent() {
           </Container>
         </Box>
 
-        <Box bg={useColorModeValue('gray.900', '#000000')} color="white" py={16} position="relative">
+        <Box bg={useColorModeValue('gray.900', '#000000')} color="white" py={8} position="relative">
           <Container maxW="6xl">
-            <VStack gap={8} textAlign="center">
+            <VStack gap={3} textAlign="center">
               <Heading size="lg" color="white">Ready to get organized?</Heading>
-              <Text fontSize="lg" color={useColorModeValue('gray.300', 'gray.400')}>
+              <Text fontSize="l" color={useColorModeValue('gray.300', 'gray.400')}>
                 Install FolderSort today and join thousands of developers who've revolutionized their workflow.
               </Text>
               <HStack gap={6} wrap="wrap" justify="center">
                 <Link
-                  href="https://github.com/yourusername/folder-organizer"
+                  href="https://github.com/duartecaldascardoso/folderSort"
                   target="_blank"
                   rel="noopener noreferrer"
                   _hover={{ textDecoration: 'none' }}
@@ -271,7 +277,7 @@ export default function ProductPageComponent() {
                 </Link>
 
                 <Link
-                  href="https://linkedin.com/in/duarte-cardoso"
+                  href="https://www.linkedin.com/in/duartecardoso/"
                   target="_blank"
                   rel="noopener noreferrer"
                   _hover={{ textDecoration: 'none' }}
@@ -288,7 +294,7 @@ export default function ProductPageComponent() {
                 </Link>
 
                 <Link
-                  href="https://buymeacoffee.com/duartecardoso"
+                  href="https://www.linkedin.com/in/duartecardoso/"
                   target="_blank"
                   rel="noopener noreferrer"
                   _hover={{ textDecoration: 'none' }}
@@ -322,7 +328,7 @@ export default function ProductPageComponent() {
           <Text fontSize="sm" color={useColorModeValue('gray.300', 'gray.400')}>
             Founded by{' '}
             <Link
-              href="https://linkedin.com/in/duarte-cardoso"
+              href="https://www.linkedin.com/in/duartecardoso/"
               target="_blank"
               rel="noopener noreferrer"
               color={useColorModeValue('purple.300', 'purple.200')}

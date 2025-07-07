@@ -15,14 +15,15 @@ import {
   Badge,
   Link,
 } from '@chakra-ui/react'
-import { 
-  FaRobot, 
-  FaTerminal, 
-  FaGithub, 
-  FaCog, 
+import {
+  FaRobot,
+  FaTerminal,
+  FaGithub,
+  FaCog,
   FaBolt,
   FaCode,
   FaHeart,
+  FaLinkedin,
 } from 'react-icons/fa'
 import { useColorModeValue, ColorModeButton } from './color-mode';
 import TerminalBox from './terminalBox';
@@ -56,18 +57,6 @@ const FeatureCard = ({ icon, title, description }: FeatureCardProps) => (
   </Box>
 )
 
-interface StatCardProps {
-  number: string;
-  label: string;
-}
-
-const StatCard = ({ number, label }: StatCardProps) => (
-  <VStack>
-    <Text fontSize="3xl" fontWeight="bold" color={useColorModeValue('purple.600', 'purple.400')}>{number}</Text>
-    <Text color={useColorModeValue('gray.600', 'gray.300')}>{label}</Text>
-  </VStack>
-)
-
 export default function ProductPageComponent() {
   return (
     <>
@@ -86,10 +75,10 @@ export default function ProductPageComponent() {
           )}
         />
 
-        <Box 
-          position="fixed" 
-          top={6} 
-          right={6} 
+        <Box
+          position="fixed"
+          top={6}
+          right={6}
           zIndex="1000"
           p={2}
         >
@@ -125,10 +114,10 @@ export default function ProductPageComponent() {
                       with intelligence
                     </Text>
                   </Heading>
-                  <Badge 
-                    colorScheme="purple" 
-                    px={4} 
-                    py={2} 
+                  <Badge
+                    colorScheme="purple"
+                    px={4}
+                    py={2}
                     borderRadius="full"
                     bg={useColorModeValue('purple.100', 'purple.900')}
                     color={useColorModeValue('purple.800', 'purple.200')}
@@ -138,9 +127,9 @@ export default function ProductPageComponent() {
                     Open Source • AI-Powered • CLI Tool
                   </Badge>
                 </VStack>
-      
+
                 <Text fontSize="l" maxW="2xl" mx="auto" color={useColorModeValue('gray.600', 'gray.200')}>
-                  <b>FolderSort</b> is an open-source CLI tool that uses AI agents to organize your files and folders, 
+                  <b>FolderSort</b> is an open-source CLI tool that uses AI agents to organize your files and folders,
                   adapting to your workflow and usage patterns. Customizable and built for developers.
                 </Text>
 
@@ -154,35 +143,17 @@ export default function ProductPageComponent() {
                     rounded="full"
                     px={8}
                     size="lg"
-                    bg={useColorModeValue('purple.600', 'purple.500')}
-                    color="white"
-                    _hover={{ bg: useColorModeValue('purple.700', 'purple.400'), transform: 'translateY(-2px)' }}
+                    bg={useColorModeValue('white.600', 'black.500')}
+                    color={useColorModeValue('black.600', 'white.500')}
+                    _hover={{ bg: useColorModeValue('white.600', 'black.500'), transform: 'translateY(-2px)' }}
                     transition="all 0.3s"
                     boxShadow={useColorModeValue(
-                      '0 10px 25px rgba(128, 90, 213, 0.4)',
-                      '0 10px 25px rgba(147, 107, 216, 0.3)'
+                      '0 5px 25px rgba(128, 90, 213, 0.4)',
+                      '0 5px 25px rgba(147, 107, 216, 0.3)'
                     )}
                   >
                     <Icon as={FaGithub} mr={2} />
-                    View on GitHub
-                  </Button>
-                  <Button
-                    variant="outline"
-                    rounded="full"
-                    px={8}
-                    size="lg"
-                    borderColor={useColorModeValue('purple.500', 'purple.400')}
-                    color={useColorModeValue('purple.600', 'purple.300')}
-                    _hover={{ 
-                      bg: useColorModeValue('purple.50', 'purple.900'), 
-                      borderColor: useColorModeValue('purple.600', 'purple.300'),
-                      transform: 'translateY(-2px)'
-                    }}
-                    transition="all 0.3s"
-                    backdropFilter="blur(10px)"
-                  >
-                    <Icon as={FaTerminal} mr={2} />
-                    Quick Install
+                    Contribute
                   </Button>
                 </Stack>
 
@@ -199,7 +170,7 @@ export default function ProductPageComponent() {
                 Why FolderSort?
               </Heading>
               <Text fontSize="l" color={useColorModeValue('gray.600', 'gray.300')} maxW="2xl">
-                Built by developers, for developers. FolderSort combines AI intelligence with 
+                Built by developers, for developers. FolderSort combines AI intelligence with
                 command-line efficiency to revolutionize how you manage your workspace.
               </Text>
             </VStack>
@@ -239,7 +210,7 @@ export default function ProductPageComponent() {
           </VStack>
         </Container>
 
-        <Box  py={20}>
+        <Box py={20}>
           <Container maxW="6xl">
             <VStack gap={12}>
               <VStack gap={4} textAlign="center">
@@ -250,7 +221,7 @@ export default function ProductPageComponent() {
                   Watch FolderSort organize a messy Downloads folder in seconds
                 </Text>
               </VStack>
-              
+
               <Box
                 bg={useColorModeValue('gray.100', '#000000')}
                 color={useColorModeValue('green.600', 'green.400')}
@@ -272,73 +243,98 @@ export default function ProductPageComponent() {
               </Box>
             </VStack>
           </Container>
-        </Box>  
+        </Box>
 
-        <Box bg={useColorModeValue('gray.900', '#000000')} color="white" py={16}>
+        <Box bg={useColorModeValue('gray.900', '#000000')} color="white" py={16} position="relative">
           <Container maxW="6xl">
             <VStack gap={8} textAlign="center">
               <Heading size="lg" color="white">Ready to get organized?</Heading>
               <Text fontSize="lg" color={useColorModeValue('gray.300', 'gray.400')}>
                 Install FolderSort today and join thousands of developers who've revolutionized their workflow.
               </Text>
-              <HStack gap={6}>
-                <Link 
-                  href="https://github.com/yourusername/folder-organizer" 
+              <HStack gap={6} wrap="wrap" justify="center">
+                <Link
+                  href="https://github.com/yourusername/folder-organizer"
                   target="_blank"
                   rel="noopener noreferrer"
                   _hover={{ textDecoration: 'none' }}
                 >
-                  <Button 
-                    size="lg" 
-                    colorScheme="purple"
-                    bg={useColorModeValue('purple.600', 'purple.500')}
-                    _hover={{ transform: 'translateY(-2px)', bg: useColorModeValue('purple.700', 'purple.400') }}
+                  <Button
+                    size="lg"
+                    variant="ghost"
+                    color={useColorModeValue('gray.600', 'gray.300')}
+                    _hover={{ color: useColorModeValue('gray.800', 'white') }}
                     transition="all 0.3s"
                   >
-                    <Icon as={FaGithub} mr={2} />
-                    Star on GitHub
+                    <Icon as={FaGithub} />
                   </Button>
                 </Link>
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  colorScheme="purple"
-                  borderColor={useColorModeValue('purple.500', 'purple.400')}
-                  color={useColorModeValue('purple.600', 'purple.300')}
-                  _hover={{ 
-                    transform: 'translateY(-2px)',
-                    bg: useColorModeValue('purple.50', 'purple.900'),
-                    borderColor: useColorModeValue('purple.600', 'purple.300')
-                  }}
-                  transition="all 0.3s"
+
+                <Link
+                  href="https://linkedin.com/in/duarte-cardoso"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  _hover={{ textDecoration: 'none' }}
                 >
-                  View Documentation
-                </Button>
+                  <Button
+                    size="lg"
+                    variant="ghost"
+                    color={useColorModeValue('gray.600', 'gray.300')}
+                    _hover={{ color: useColorModeValue('gray.800', 'white') }}
+                    transition="all 0.3s"
+                  >
+                    <Icon as={FaLinkedin} />
+                  </Button>
+                </Link>
+
+                <Link
+                  href="https://buymeacoffee.com/duartecardoso"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  _hover={{ textDecoration: 'none' }}
+                >
+                  <Button
+                    size="lg"
+                    variant="ghost"
+                    color={useColorModeValue('gray.600', 'gray.300')}
+                    _hover={{ color: useColorModeValue('gray.800', 'white') }}
+                    transition="all 0.3s"
+                  >
+                    ☕
+                  </Button>
+                </Link>
               </HStack>
             </VStack>
           </Container>
         </Box>
+        <Box
+          position="absolute"
+          bottom={4}
+          right={4}
+          bg={useColorModeValue('whiteAlpha.100', 'blackAlpha.400')}
+          px={3}
+          py={2}
+          borderRadius="md"
+          backdropFilter="blur(10px)"
+          border="1px solid"
+          borderColor={useColorModeValue('whiteAlpha.200', 'whiteAlpha.100')}
+        >
+          <Text fontSize="sm" color={useColorModeValue('gray.300', 'gray.400')}>
+            Founded by{' '}
+            <Link
+              href="https://linkedin.com/in/duarte-cardoso"
+              target="_blank"
+              rel="noopener noreferrer"
+              color={useColorModeValue('purple.300', 'purple.200')}
+              _hover={{ textDecoration: 'underline' }}
+            >
+              Duarte Cardoso
+            </Link>
+          </Text>
+        </Box>
       </Flex>
 
       <style>{`
-        @keyframes float1 {
-          0%, 100% { 
-            transform: translateY(0px) rotate(0deg); 
-          }
-          50% { 
-            transform: translateY(-20px) rotate(180deg); 
-          }
-        }
-        
-        @keyframes float2 {
-          0%, 100% { 
-            transform: translateY(0px) rotate(0deg); 
-          }
-          50% { 
-            transform: translateY(20px) rotate(-180deg); 
-          }
-        }
-
         @keyframes blink {
           50% {
             opacity: 0;
@@ -346,5 +342,5 @@ export default function ProductPageComponent() {
         }
       `}</style>
     </>
-  ) 
+  )
 }

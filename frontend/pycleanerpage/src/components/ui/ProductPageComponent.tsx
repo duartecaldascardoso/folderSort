@@ -140,7 +140,7 @@ export default function ProductPageComponent() {
                 </VStack>
       
                 <Text fontSize="l" maxW="2xl" mx="auto" color={useColorModeValue('gray.600', 'gray.200')}>
-                  FolderSort is an open-source CLI tool that uses AI agents to organize your files and folders, 
+                  <b>FolderSort</b> is an open-source CLI tool that uses AI agents to organize your files and folders, 
                   adapting to your workflow and usage patterns. Customizable and built for developers.
                 </Text>
 
@@ -198,7 +198,7 @@ export default function ProductPageComponent() {
               <Heading size="xl" color={useColorModeValue('gray.800', 'white')}>
                 Why FolderSort?
               </Heading>
-              <Text fontSize="lg" color={useColorModeValue('gray.600', 'gray.300')} maxW="2xl">
+              <Text fontSize="l" color={useColorModeValue('gray.600', 'gray.300')} maxW="2xl">
                 Built by developers, for developers. FolderSort combines AI intelligence with 
                 command-line efficiency to revolutionize how you manage your workspace.
               </Text>
@@ -246,7 +246,7 @@ export default function ProductPageComponent() {
                 <Heading size="xl" color={useColorModeValue('gray.800', 'white')}>
                   See It In Action
                 </Heading>
-                <Text fontSize="lg" color={useColorModeValue('gray.600', 'gray.300')}>
+                <Text fontSize="l" color={useColorModeValue('gray.600', 'gray.300')}>
                   Watch FolderSort organize a messy Downloads folder in seconds
                 </Text>
               </VStack>
@@ -272,28 +272,7 @@ export default function ProductPageComponent() {
               </Box>
             </VStack>
           </Container>
-        </Box>
-
-        {/* Stats Section */}
-        <Container maxW="6xl" py={20}>
-          <VStack gap={12}>
-            <VStack gap={4} textAlign="center">
-              <Heading size="xl" color={useColorModeValue('gray.800', 'white')}>
-                Join the Community
-              </Heading>
-              <Text fontSize="lg" color={useColorModeValue('gray.600', 'gray.300')}>
-                FolderSort is growing fast with developers who believe in better file organization
-              </Text>
-            </VStack>
-
-            <SimpleGrid columns={{ base: 2, md: 4 }} gap={8} width="100%">
-              <StatCard number="2.5K+" label="GitHub Stars" />
-              <StatCard number="150+" label="Contributors" />
-              <StatCard number="50K+" label="Files Organized" />
-              <StatCard number="15+" label="Languages Supported" />
-            </SimpleGrid>
-          </VStack>
-        </Container>
+        </Box>  
 
         <Box bg={useColorModeValue('gray.900', '#000000')} color="white" py={16}>
           <Container maxW="6xl">

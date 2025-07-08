@@ -294,7 +294,7 @@ export default function ProductPageComponent() {
                 </Link>
 
                 <Link
-                  href="https://www.linkedin.com/in/duartecardoso/"
+                  href="https://buymeacoffee.com/caldasdcarr"
                   target="_blank"
                   rel="noopener noreferrer"
                   _hover={{ textDecoration: 'none' }}

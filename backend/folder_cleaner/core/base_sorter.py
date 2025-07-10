@@ -6,9 +6,9 @@ from pydantic import BaseModel, Field
 class BaseSorterStrategy(BaseModel, ABC):
     """Base class for all file sorting strategies. Used for metadata and base sort handling."""
 
-    developer_tag: str = Field(...)
-    code_snippet: str = Field(...)
-    cli_command: str = Field(...)
+    developer_tag: str = Field(..., description="Unique identifier for the developer or strategy author.")
+    code_snippet: str = Field(..., description="Short description of the sorting logic or code snippet.")
+    cli_command: str = Field(..., description="Command line usage associated with the strategy.")
     careful: bool = Field(
         False,
         description="If True, simulate sorting in a fake directory with empty files",
@@ -31,7 +31,7 @@ class BaseSorterStrategy(BaseModel, ABC):
     def prepare_target_path(self, folder_path: Path) -> Path:
         """Return either the actual folder or a fake experiment folder if in careful mode."""
         if self.careful:
-            experiment_dir = folder_path.parent / f"experiment_{folder_path.name}"
+            experiment_dir = folder_path / f"experiment_{folder_path.name}"
             experiment_dir.mkdir(exist_ok=True)
             self._create_empty_file_structure(folder_path, experiment_dir)
             return experiment_dir

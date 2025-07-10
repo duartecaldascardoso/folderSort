@@ -17,7 +17,7 @@ class AlphabeticalSorter(BaseSorterStrategy):
         print(f"📁 Sorting folder: {folder_path}")
         files = [f for f in folder_path.iterdir() if f.is_file()]
         if not files:
-            print("⚠️ No files to sort.")
+            print("No files to sort.")
             return
 
         for letter in ascii_uppercase:

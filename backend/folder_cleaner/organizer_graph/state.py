@@ -16,6 +16,7 @@ class InputOrganizerState(TypedDict):
     """List of flags passed via CLI to the organizer."""
     user_flags: Optional[list[str]]
 
+
 class OrganizerState(InputOrganizerState):
     """State of the organizer graph."""
 

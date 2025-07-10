@@ -1,6 +1,5 @@
 import asyncio
 import os
-import textwrap
 from pathlib import Path
 
 
@@ -23,7 +22,6 @@ async def _explore_directory_content(state: InputOrganizerState):
         total_files += len(filenames)
         total_directories += len(directory_names)
 
-
         for f in filenames:
             ext = Path(f).suffix.lower()
             if ext:
@@ -40,8 +38,12 @@ async def _explore_directory_content(state: InputOrganizerState):
         else:
             file_type_frequency[extension] = 1
 
-    five_most_predominant_extensions = sorted(file_type_frequency.items(), key=lambda x: x[1], reverse=True)[:5]
-    predominant_file_types = {extension: count for extension, count in five_most_predominant_extensions}
+    five_most_predominant_extensions = sorted(
+        file_type_frequency.items(), key=lambda x: x[1], reverse=True
+    )[:5]
+    predominant_file_types = {
+        extension: count for extension, count in five_most_predominant_extensions
+    }
     file_names = os.listdir(root_path)
 
     directory_summary = DirectorySummary(
@@ -53,9 +55,6 @@ async def _explore_directory_content(state: InputOrganizerState):
     )
 
     return {"directory_summary": directory_summary}
-
-
-
 
 
 # Builder configuration of the graph
@@ -72,10 +71,13 @@ graph = builder.compile()
 
 # Main method to run the graph in testing mode
 async def main():
-
     current_path = Path(__file__).parent.resolve()
     # Create initial state
-    initial_state = InputOrganizerState(path=current_path,user_indication="Create a script which will organize files by date and  type", user_flags=["-f", "-d"])
+    initial_state = InputOrganizerState(
+        path=current_path,
+        user_indication="Create a script which will organize files by date and  type",
+        user_flags=["-f", "-d"],
+    )
 
     # Run the graph
     result = await graph.ainvoke(initial_state)

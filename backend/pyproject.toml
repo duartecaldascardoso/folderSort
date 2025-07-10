@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "folder-sort"
 version = "0.1.0"
 authors = [
-  { name="Duarte", email="caldasdcardoso@gmail.com" },
+  { name="Duarte Cardoso", email="caldasdcardoso@gmail.com" },
 ]
 description = "A tool to organize folders and clean the desktop environment."
 readme = "README.md"
@@ -26,13 +26,10 @@ dependencies = [
 ]
 
 [project.scripts]
-folder-sort = "folder_cleaner.client:main"
+folder-sort = "folder_cleaner.cli:app"
 
 [project.optional-dependencies]
 dev = [
     "pytest",
     "mypy",
 ]
-
-[tool.setuptools]
-packages = ["folder_cleaner"]

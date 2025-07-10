@@ -52,42 +52,6 @@ async def _explore_directory_content(state: InputOrganizerState):
         file_names=file_names,
     )
 
-    # DO NOT EXECUTE THIS SCRIPT WITHOUT BEING FOR TESTING PURPOSES ONLY
-    cleaning_script = textwrap.dedent("""\
-        import os
-        import shutil
-        from datetime import datetime
-        from pathlib import Path
-
-        def organize_files_by_date_and_type(base_path="."):
-            base_path = Path(base_path).resolve()
-            target_root = base_path / "organized"
-
-            for root, _, files in os.walk(base_path):
-                if target_root in Path(root).parents or Path(root) == target_root:
-                    continue
-
-                for file in files:
-                    file_path = Path(root) / file
-                    if not file_path.is_file():
-                        continue
-
-                    mtime = datetime.fromtimestamp(file_path.stat().st_mtime)
-                    year = f"{mtime.year:04d}"
-                    month = f"{mtime.month:02d}"
-                    day = f"{mtime.day:02d}"
-                    ext = file_path.suffix[1:] if file_path.suffix else "no_ext"
-                    target_dir = target_root / year / month / day / ext
-                    target_dir.mkdir(parents=True, exist_ok=True)
-                    target_path = target_dir / file
-                    shutil.move(str(file_path), str(target_path))
-                    print(f"Moved: {file_path} → {target_path}")
-
-        organize_files_by_date_and_type()
-    """)
-
-    exec(cleaning_script, {})
-
     return {"directory_summary": directory_summary}
 
 

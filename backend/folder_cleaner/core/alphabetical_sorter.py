@@ -5,17 +5,19 @@ from .base_sorter import BaseSorterStrategy
 
 
 class AlphabeticalSorter(BaseSorterStrategy):
-    def __init__(self):
+    def __init__(self, careful: bool = False):
         super().__init__(
             developer_tag="caldasdcardoso",
             code_snippet="Sort files into folders by first letter of filename.",
             cli_command="alphabetical",
+            careful=careful,
         )
 
-    def sort(self, folder_path: Path) -> None:
-        print(f"Sorting folder: {folder_path}")
+    def _sort_logic(self, folder_path: Path) -> None:
+        print(f"📁 Sorting folder: {folder_path}")
         files = [f for f in folder_path.iterdir() if f.is_file()]
         if not files:
+            print("⚠️ No files to sort.")
             return
 
         for letter in ascii_uppercase:
@@ -25,8 +27,11 @@ class AlphabeticalSorter(BaseSorterStrategy):
 
             target_dir = folder_path / letter
             target_dir.mkdir(exist_ok=True)
-            print(f"Moving {len(matching_files)} files to '{letter}/'")
+            print(f"📂 Organizing {len(matching_files)} file(s) into '{letter}/'")
 
             for file in matching_files:
                 dest = target_dir / file.name
-                shutil.move(str(file), dest)
+                if self.careful:
+                    dest.touch()
+                else:
+                    shutil.move(str(file), dest)

@@ -2,10 +2,11 @@ import argparse
 import sys
 from pathlib import Path
 
-from folder_cleaner.folderOrganizer import clean_directory
+from folder_cleaner.core.alphabetical_sorter import AlphabeticalSorter
 
 
 def main():
+    print("🔧 Tool loaded.")
     parser = argparse.ArgumentParser(
         description="A CLI tool to clean and organize folders.",
         formatter_class=argparse.RawTextHelpFormatter,
@@ -15,38 +16,27 @@ def main():
         "-a",
         "--alphabetical",
         action="store_true",
-        help="Organize files alphabetically",
+        help="Organize files alphabetically (A-Z folders)",
     )
     parser.add_argument(
         "-ai",
         "--artificial_intelligence",
         type=str,
-        help="Organize files based on user instruction - this will use AI to interpret the instruction",
+        help="Organize files based on instruction (uses AI)",
     )
     parser.add_argument(
         "-f",
         "--filetype",
         action="store_true",
-        help="Organize files by their type (e.g. images, documents)",
-    )
-    parser.add_argument(
-        "-d",
-        "--directory",
-        type=str,
-        default=".",
-        help="Target directory to clean (default is current directory)",
+        help="Organize files by type (e.g., images, documents)",
     )
 
     args = parser.parse_args()
+    target_path = Path.cwd()
 
-    directory = Path(args.directory).resolve()
-
-    clean_directory(
-        directory=directory,
-        alpha=args.alphabetical,
-        instr=args.artificial_intelligence,
-        filetype=args.filetype,
-    )
+    if args.alphabetical:
+        sorter = AlphabeticalSorter()
+        sorter.sort(target_path)
 
     return 0
 

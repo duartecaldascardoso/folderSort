@@ -1,6 +1,7 @@
 import typer
 from pathlib import Path
 from folder_cleaner.core.alphabetical_sorter import AlphabeticalSorter
+from folder_cleaner.core.chronological_order import TimeBasedSorter
 
 #
 # State and app initialization
@@ -47,6 +48,23 @@ def alphabetical_sort():
 def filetype_sort():
     """Sort files into folders by file extension/type."""
     typer.echo("Filetype sorting not implemented yet.")
+
+
+@app.command("time")
+def time_based_sort(time_measure: str):
+    """Sort files into folders by creation time. Accepts one of the following time measures: 'day', 'week', 'month', 'year'."""
+    folder_path = Path.cwd()
+
+    sorter = TimeBasedSorter.model_construct(
+        developer_tag="caldasdcardoso",
+        code_snippet="Sort files into folders by creation time.",
+        cli_command="time",
+        careful=state.careful,
+        time_measure=time_measure,
+    )
+
+    sorter.sort(folder_path)
+    typer.echo("Sorted files by the times they were created at.")
 
 
 @app.command("ai")

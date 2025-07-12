@@ -6,9 +6,15 @@ from pydantic import BaseModel, Field
 class BaseSorterStrategy(BaseModel, ABC):
     """Base class for all file sorting strategies. Used for metadata and base sort handling."""
 
-    developer_tag: str = Field(..., description="Unique identifier for the developer or strategy author.")
-    code_snippet: str = Field(..., description="Short description of the sorting logic or code snippet.")
-    cli_command: str = Field(..., description="Command line usage associated with the strategy.")
+    developer_tag: str = Field(
+        ..., description="Unique identifier for the developer or strategy author."
+    )
+    code_snippet: str = Field(
+        ..., description="Short description of the sorting logic or code snippet."
+    )
+    cli_command: str = Field(
+        ..., description="Command line usage associated with the strategy."
+    )
     careful: bool = Field(
         False,
         description="If True, simulate sorting in a fake directory with empty files",

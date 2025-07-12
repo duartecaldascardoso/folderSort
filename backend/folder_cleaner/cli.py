@@ -1,3 +1,5 @@
+import os
+
 import typer
 from pathlib import Path
 from folder_cleaner.core.alphabetical_sorter import AlphabeticalSorter
@@ -23,7 +25,7 @@ def main(
         False,
         "--careful",
         "-c",
-        help="Simulate sorting in a dummy folder with empty files.",
+        help="Simulate sorting in a dummy folder with empty files before actual sorting (useful for experimenting).",
     ),
 ):
     """Folder Sort CLI"""
@@ -44,12 +46,6 @@ def alphabetical_sort():
     typer.echo("Sorted files alphabetically.")
 
 
-@app.command("filetype")
-def filetype_sort():
-    """Sort files into folders by file extension/type."""
-    typer.echo("Filetype sorting not implemented yet.")
-
-
 @app.command("time")
 def time_based_sort(time_measure: str):
     """Sort files into folders by creation time. Accepts one of the following time measures: 'day', 'week', 'month', 'year'."""
@@ -68,9 +64,21 @@ def time_based_sort(time_measure: str):
 
 
 @app.command("ai")
-def ai_sort(instruction: str):
+def ai_sort(
+    instruction: str,
+    api_key: str = typer.Option(
+        None,
+        "--api-key",
+        help="Your API key (or set API_KEY environment variable).",
+    ),
+):
     """Sort files using AI based on your instruction."""
-    typer.echo(f"AI instruction received: '{instruction}' (careful={state.careful})")
+    final_key = api_key or os.getenv("API_KEY")
+    if not final_key:
+        typer.echo(
+            "API key not provided. Use --api-key or set the API_KEY environment variable."
+        )
+        raise typer.Exit(code=1)
 
 
 #

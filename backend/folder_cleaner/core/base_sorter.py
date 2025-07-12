@@ -20,10 +20,6 @@ class BaseSorterStrategy(BaseModel, ABC):
         description="If True, simulate sorting in a fake directory with empty files",
     )
 
-    class Config:
-        arbitrary_types_allowed = True
-        extra = "forbid"
-
     def sort(self, folder_path: Path) -> None:
         """Non-overridable entry point. Prepares a path and delegates to subclass."""
         target_path = self.prepare_target_path(folder_path)

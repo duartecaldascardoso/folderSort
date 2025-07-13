@@ -4,6 +4,8 @@ import typer
 from pathlib import Path
 from folder_cleaner.core.alphabetical_sorter import AlphabeticalSorter
 from folder_cleaner.core.chronological_order import TimeBasedSorter
+from folder_cleaner.organizer_graph.graph import graph
+from folder_cleaner.organizer_graph.state import InputOrganizerState
 
 #
 # State and app initialization
@@ -64,7 +66,7 @@ def time_based_sort(time_measure: str):
 
 
 @app.command("ai")
-def ai_sort(
+async def ai_sort(
     instruction: str,
     api_key: str = typer.Option(
         None,
@@ -73,12 +75,28 @@ def ai_sort(
     ),
 ):
     """Sort files using AI based on your instruction."""
+
+    path = Path.cwd()
+    if not path.is_dir():
+        typer.echo("Current path is not a directory.")
+        raise typer.Exit(code=1)
+
     final_key = api_key or os.getenv("API_KEY")
+    # Let's not do anything with the key for now, only check if it's provided.
     if not final_key:
         typer.echo(
             "API key not provided. Use --api-key or set the API_KEY environment variable."
         )
         raise typer.Exit(code=1)
+
+    # Invoking the langgraph AI
+    initial_state = InputOrganizerState(
+        path=path,
+        user_indication=instruction,
+        user_flags=[],
+    )
+
+    result = await graph.ainvoke(initial_state)
 
 
 #

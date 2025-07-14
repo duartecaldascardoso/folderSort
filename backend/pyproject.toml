@@ -15,6 +15,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
+    "anyio>=4.9.0",
     "filetype>=1.2.0",
     "langchain>=0.3.26",
     "langchain-openai>=0.3.27",

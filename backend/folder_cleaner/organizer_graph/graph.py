@@ -1,5 +1,6 @@
 import asyncio
 import os
+import traceback
 from pathlib import Path
 
 from langchain.chat_models import init_chat_model
@@ -12,7 +13,9 @@ from folder_cleaner.organizer_graph.schemas.directory_summary import DirectorySu
 from folder_cleaner.organizer_graph.schemas.sorting_algorithm import SortingAlgorithm
 from folder_cleaner.organizer_graph.state import OrganizerState, InputOrganizerState
 from dotenv import load_dotenv
+
 load_dotenv()
+
 
 async def _explore_directory_content(state: InputOrganizerState):
     """Explore the folder and extract high-level structure information."""
@@ -85,19 +88,40 @@ async def _generate_sorting_algorithm(state: OrganizerState):
     }
 
 
+async def _run_sorting_algorithm(state: OrganizerState):
+    """Run the sorting algorithm on the directory."""
+    if not state.sorting_algorithm:
+        return {"error": "No sorting algorithm generated."}
+
+    generated_code = state.sorting_algorithm.generated_code
+    state.organized_code = generated_code
+
+    try:
+        exec_env = {"__name__": "__main__", "ROOT_PATH": str(Path(state.path))}
+        exec(generated_code, exec_env)
+        return {"execution_success": True}
+    except Exception as e:
+        tb = traceback.format_exc()
+        return {
+            "execution_success": False,
+            "error": str(e),
+            "traceback": tb,
+        }
+
+
 # Builder configuration of the graph
 builder = StateGraph(OrganizerState)
 
 # Nodes from the graph
 builder.add_node("explore_directory_content", _explore_directory_content)
 builder.add_node("generate_sorting_algorithm", _generate_sorting_algorithm)
+builder.add_node("run_sorting_algorithm", _run_sorting_algorithm)
 
 # Edges from the graph
 builder.add_edge(START, "explore_directory_content")
-builder.add_edge(
-    "explore_directory_content", "generate_sorting_algorithm"
-)
-builder.add_edge("generate_sorting_algorithm", END)
+builder.add_edge("explore_directory_content", "generate_sorting_algorithm")
+builder.add_edge("generate_sorting_algorithm", "run_sorting_algorithm")
+builder.add_edge("run_sorting_algorithm", END)
 
 graph = builder.compile()
 
@@ -105,19 +129,26 @@ graph = builder.compile()
 # Main method to run the graph in testing mode
 async def main():
     current_path = Path(__file__).parent.resolve()
-    # Create initial state
     initial_state = InputOrganizerState(
         path=current_path,
-        user_indication="Create a script which will organize files by date and  type",
+        user_indication="Create a script which will organize files by date and type",
         user_flags=[],
     )
 
-    # Run the graph
     result = await graph.ainvoke(initial_state)
 
-    # Print the summary result
     print("\n--- Directory Summary ---")
-    print(result.directory_summary.json(indent=2))
+    print(result["directory_summary"].json(indent=2))
+
+    print("\n--- Sorting Code ---")
+    print(result.get("organized_code", "No code generated."))
+
+    if result.get("execution_success", False):
+        print("\nCode executed successfully.")
+    else:
+        print("\nCode execution failed.")
+        print("Error:", result.get("error", "Unknown"))
+        print("Traceback:\n", result.get("traceback", "No traceback available"))
 
 
 if __name__ == "__main__":

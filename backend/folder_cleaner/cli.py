@@ -23,12 +23,12 @@ state = AppState()
 
 @app.callback()
 def main(
-    careful: bool = typer.Option(
-        False,
-        "--careful",
-        "-c",
-        help="Simulate sorting in a dummy folder with empty files before actual sorting (useful for experimenting).",
-    ),
+        careful: bool = typer.Option(
+            False,
+            "--careful",
+            "-c",
+            help="Simulate sorting in a dummy folder with empty files before actual sorting (useful for experimenting).",
+        ),
 ):
     """Folder Sort CLI"""
     state.careful = careful
@@ -66,22 +66,15 @@ def time_based_sort(time_measure: str):
 
 
 @app.command("ai")
-async def ai_sort(
-    instruction: str,
-    api_key: str = typer.Option(
-        None,
-        "--api-key",
-        help="Your API key (or set API_KEY environment variable).",
-    ),
-):
-    """Sort files using AI based on your instruction."""
+async def ai_sort(instruction: str):
+    """Sort files using AI based on your instruction and current path."""
 
     path = Path.cwd()
     if not path.is_dir():
         typer.echo("Current path is not a directory.")
         raise typer.Exit(code=1)
 
-    final_key = api_key or os.getenv("API_KEY")
+    final_key = os.getenv("API_KEY")
     # Let's not do anything with the key for now, only check if it's provided.
     if not final_key:
         typer.echo(

@@ -16,6 +16,7 @@ classifiers = [
 ]
 dependencies = [
     "anyio>=4.9.0",
+    "dotenv>=0.9.9",
     "filetype>=1.2.0",
     "langchain>=0.3.26",
     "langchain-openai>=0.3.27",

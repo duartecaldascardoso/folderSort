@@ -1,5 +1,6 @@
 import asyncio
 import os
+import subprocess
 import traceback
 from pathlib import Path
 
@@ -77,6 +78,7 @@ async def _generate_sorting_algorithm(state: OrganizerState):
     prompt = SORTING_PROMPT.format(
         user_instructions=state.user_indication,
         directory_summary=state.directory_summary,
+        directory_path=state.path,
     )
 
     response = await model.with_structured_output(SortingAlgorithm).ainvoke(
@@ -88,18 +90,39 @@ async def _generate_sorting_algorithm(state: OrganizerState):
     }
 
 
-async def _run_sorting_algorithm(state: OrganizerState):
-    """Run the sorting algorithm on the directory."""
-    if not state.sorting_algorithm:
-        return {"error": "No sorting algorithm generated."}
+async def run_generated_file(code: str, folder: Path, file_name: str = "sorting_script"):
+    generated_dir = folder / "generated_scripts"
+    generated_dir.mkdir(exist_ok=True)
 
-    generated_code = state.sorting_algorithm.generated_code
-    state.organized_code = generated_code
+    filepath = generated_dir / file_name
+
+    with open(filepath, "w") as f:
+        f.write(code)
+
+    result = subprocess.run(["python", str(folder)], capture_output=True, text=True)
+    return result.stdout, result.stderr, filepath
+
+
+async def _run_sorting_algorithm(state: OrganizerState):
+    if not state.sorting_algorithm:
+        return {"execution_success": False, "error": "No sorting algorithm generated."}
 
     try:
-        exec_env = {"__name__": "__main__", "ROOT_PATH": str(Path(state.path))}
-        exec(generated_code, exec_env)
-        return {"execution_success": True}
+        stdout, stderr, filepath = await run_generated_file(
+            state.sorting_algorithm.generated_code,
+            folder=Path(state.path),
+        )
+
+        success = True
+
+        return {
+            "execution_success": success,
+            "stdout": stdout,
+            "stderr": stderr,
+            "script_path": str(filepath),
+            "generated_code": state.sorting_algorithm.generated_code,
+        }
+
     except Exception as e:
         tb = traceback.format_exc()
         return {
@@ -107,6 +130,7 @@ async def _run_sorting_algorithm(state: OrganizerState):
             "error": str(e),
             "traceback": tb,
         }
+
 
 
 # Builder configuration of the graph
@@ -126,7 +150,6 @@ builder.add_edge("run_sorting_algorithm", END)
 graph = builder.compile()
 
 
-# Main method to run the graph in testing mode
 async def main():
     current_path = Path(__file__).parent.resolve()
     initial_state = InputOrganizerState(
@@ -137,18 +160,19 @@ async def main():
 
     result = await graph.ainvoke(initial_state)
 
-    print("\n--- Directory Summary ---")
-    print(result["directory_summary"].json(indent=2))
-
     print("\n--- Sorting Code ---")
-    print(result.get("organized_code", "No code generated."))
+    print(result.get("sorting_algorithm").generated_code)
 
     if result.get("execution_success", False):
         print("\nCode executed successfully.")
+        print("Script saved at:", result.get("script_path"))
+        print("Output:\n", result.get("stdout", ""))
     else:
         print("\nCode execution failed.")
+        print("Script saved at:", result.get("script_path", "N/A"))
         print("Error:", result.get("error", "Unknown"))
         print("Traceback:\n", result.get("traceback", "No traceback available"))
+        print("Stderr:\n", result.get("stderr", ""))
 
 
 if __name__ == "__main__":

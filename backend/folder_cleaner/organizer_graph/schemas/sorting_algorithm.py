@@ -9,3 +9,5 @@ class SortingAlgorithm(BaseModel):
     code_explanation: str = Field(
         description="The explanation of the sorting algorithm."
     )
+
+    file_name: str = Field(description="The name of the file, including the extension, where the sorting algorithm will be saved.")

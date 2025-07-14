@@ -23,12 +23,12 @@ state = AppState()
 
 @app.callback()
 def main(
-        careful: bool = typer.Option(
-            False,
-            "--careful",
-            "-c",
-            help="Simulate sorting in a dummy folder with empty files before actual sorting (useful for experimenting).",
-        ),
+    careful: bool = typer.Option(
+        False,
+        "--careful",
+        "-c",
+        help="Simulate sorting in a dummy folder with empty files before actual sorting (useful for experimenting).",
+    ),
 ):
     """Folder Sort CLI"""
     state.careful = careful
